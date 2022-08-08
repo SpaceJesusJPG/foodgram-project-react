@@ -1,5 +1,5 @@
 from csv import DictReader
-
+from pathlib import Path
 from django.core.management import BaseCommand
 
 from recipes.models import Ingredient
@@ -7,15 +7,16 @@ from recipes.models import Ingredient
 DATA_TABLE = {
     Ingredient: "ingredients.csv",
 }
+DATA_DIR = Path(__file__).parent.parent.resolve()
 
 
 class Command(BaseCommand):
-    help = "Loads data from C:/Dev/foodgram-project-react/data"
+    help = "Loads data from foodgram-project/data"
 
     def handle(self, *args, **options):
         for model, csv_file in DATA_TABLE.items():
             with open(
-                f"C:/Dev/foodgram-project-react/data/{csv_file}",
+                f'/app/data/{csv_file}',
                 "r",
                 encoding="utf-8",
             ) as file:

@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g4(3h*p!z&ih541dqrq3nrx^7^*4ceoy@1x$%t!48cxs23i(4x'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['web', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['web', 'localhost', '127.0.0.1', '51.250.105.244']
 
 
 # Application definition
@@ -83,11 +83,14 @@ WSGI_APPLICATION = 'foodgram_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT')
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -127,6 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/web_static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'web_static/')
 
 MEDIA_URL = '/web_media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'web_media')
