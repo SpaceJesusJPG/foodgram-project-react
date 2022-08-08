@@ -57,10 +57,16 @@ class Recipe(models.Model):
 class Amount(models.Model):
     amount = models.IntegerField(default=0, verbose_name="Количество")
     ingredient = models.ForeignKey(
-        Ingredient, on_delete=models.CASCADE, verbose_name="Ингридиент"
+        Ingredient,
+        on_delete=models.CASCADE,
+        related_name='ingredient_amout',
+        verbose_name="Ингридиент"
     )
     recipe = models.ForeignKey(
-        Recipe, on_delete=models.CASCADE, verbose_name="Рецепт"
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='ingredient_recipe',
+        verbose_name="Рецепт"
     )
 
     def __str__(self):
