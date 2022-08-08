@@ -95,24 +95,17 @@ class RecipeViewSet(viewsets.ModelViewSet):
         for recipe in recipe_queryset:
             amount_queryset = Amount.objects.filter(recipe=recipe)
             for amount in amount_queryset:
-                if (
+                ingredient_str = (
                     f'{amount.ingredient}'
                     f'({amount.ingredient.measurement_unit})'
-                ) in shopping_list:
-                    amount_int = shopping_list[
-                        f'{amount.ingredient} '
-                        f'({amount.ingredient.measurement_unit})'
-                    ]
+                )
+                if ingredient_str in shopping_list:
+                    amount_int = shopping_list[ingredient_str]
                     amount_sum = amount_int + amount.amount
-                    shopping_list[
-                        f'{amount.ingredient} '
-                        f'({amount.ingredient.measurement_unit})'
-                    ] = amount_sum
+                    shopping_list[ingredient_str] = amount_sum
                 else:
-                    shopping_list[
-                        f'{amount.ingredient} '
-                        f'({amount.ingredient.measurement_unit})'
-                    ] = amount.amount
+                    shopping_list[ingredient_str] = amount.amount
+            print(shopping_list)
         text = []
         for key, value in shopping_list.items():
             text += f'{key} - {value}\n'
